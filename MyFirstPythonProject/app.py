@@ -19,7 +19,15 @@ def addArticle():
 
 @app.route('/index')
 def toIndex():
-    return render_template('index.html')
+    account=session.get('account')
+    tags=''
+    if account!=None:
+        sql = "select tags from user where account = '%s'" % (account)
+        data = DataBaseHandle().selectDB(sql)
+        tags = data[0][0]
+    else:
+        tags='请先登录！'
+    return render_template('index.html',tags=tags)
 
 @app.route('/login')
 def toLogin():
@@ -29,8 +37,21 @@ def toLogin():
 def saveArticle():
     title = request.form.get('title')
     content = request.form.get('content')
-    id=uuid.uuid1()
+    test = request.form.get('test')
     account=session.get("account")
+    if test!='':
+        sql="select tags from user where account = '%s'" % (account)
+        data = DataBaseHandle().selectDB(sql)
+        tags=data[0][0]
+        if tags!=None:
+            newTest = tags + ',' + test
+            sql2 = "update user set tags = '%s' where account ='%s'" % (newTest, account)
+            DataBaseHandle().updateDB(sql2)
+        else:
+            sql2 = "update user set tags = '%s' where account ='%s'" % (test, account)
+            DataBaseHandle().updateDB(sql2)
+
+    id=uuid.uuid1()
     username=session.get("username")
     nowDate=datetime.datetime.now()
     sql="insert into article values('%s','%s','%s','%s','%s','%s')" % (id,title,content,account,username,nowDate)
@@ -116,7 +137,9 @@ def getAllArticles():
 @app.route('/logout')
 def logout():
     session["username"]=None
-    return render_template('index.html')
+    session["account"] = None
+    tags = '请先登录！'
+    return render_template('index.html', tags=tags)
 
 # # 判断是否登录
 @app.route('/isLogin',methods=['POST'])
@@ -140,6 +163,7 @@ def denglu():
         # 记录登录状态
         session["username"] = data[0][3]
         session["account"] = data[0][1]
+        session["tags"] = data[0][4]
         return '登录成功'
     else:
         return '登录失败'

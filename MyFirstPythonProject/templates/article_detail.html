@@ -116,24 +116,7 @@
 			<div class="tab-category-item">
 				<ul class="index_recd">
 					<li>
-						<a href="#">阻止a标签href默认跳转事件</a>
-						<p class="hits"><i class="Hui-iconfont" title="点击量">&#xe622;</i> 276 </p>
-					</li>
-					<li >
-						<a href="#">PHP面试题汇总</a>
-						<p class="hits"><i class="Hui-iconfont" title="点击量">&#xe622;</i> 276 </p>
-					</li>
-					<li >
-						<a href="#">阻止a标签href默认跳转事件</a>
-						<p class="hits"><i class="Hui-iconfont" title="点击量">&#xe622;</i> 276 </p>
-					</li>
-					<li >
-						<a href="#">阻止a标签href默认跳转事件</a>
-						<p class="hits"><i class="Hui-iconfont" title="点击量">&#xe622;</i> 276 </p>
-					</li>
-					<li >
-						<a href="#">PHP面试题汇总</a>
-						<p class="hits"><i class="Hui-iconfont" title="点击量">&#xe622;</i> 276 </p>
+						<a href="http://localhost:5000/getArticleById?id=c0f2cc9a-472d-11eb-9f7d-380025893702">动手做一个文件服务器</a>
 					</li>
 				</ul>
 			</div>
@@ -214,7 +197,8 @@
          var converter = new showdown.Converter();
          var text = $("#lalala").html();   //需要显示的markdown笔记
          var html = converter.makeHtml(text);
-         document.getElementById('test').innerHTML = html;
+        var newHtml=html.replaceAll('<img src','<img style="margin-top:20px;width:800px;height:300px;" src');
+         document.getElementById('test').innerHTML = newHtml;
 
     });
 
