@@ -65,7 +65,7 @@ def saveArticle():
 @app.route('/getPinglun',methods=['POST'])
 def getPinglun():
     articleid = request.form.get('articleid')
-    sql="SELECT b.username,a.content,a.time FROM pinglun a LEFT JOIN USER b ON b.account = a.fromaccount WHERE articleid = '%s' order by a.time ASC" % (articleid)
+    sql="SELECT b.username,a.content,a.time FROM pinglun a LEFT JOIN user b ON b.account = a.fromaccount WHERE articleid = '%s' order by a.time ASC" % (articleid)
     data = DataBaseHandle().selectDB(sql)
     list=[]
     for obj in data:
