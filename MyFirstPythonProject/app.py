@@ -40,6 +40,38 @@ def saveArticle():
     else:
         return 'error'
 
+# 查询评论
+@app.route('/getPinglun',methods=['POST'])
+def getPinglun():
+    articleid = request.form.get('articleid')
+    sql="SELECT b.username,a.content,a.time FROM pinglun a LEFT JOIN USER b ON b.account = a.fromaccount WHERE articleid = '%s' order by a.time ASC" % (articleid)
+    data = DataBaseHandle().selectDB(sql)
+    list=[]
+    for obj in data:
+        list.append({
+            'username':obj[0],
+            'content':obj[1],
+            'time':obj[2]
+        })
+    return json.dumps(list,cls=DateEncoder)
+
+# 发表评论
+@app.route('/pinglun',methods=['POST'])
+def pinglun():
+    id=uuid.uuid1()
+    fromaccount=session.get('account')
+    toaccount=request.form.get('toaccount')
+    content=request.form.get('content')
+    time=datetime.datetime.now()
+    articleid=request.form.get('articleid')
+    sql="insert into pinglun(id,fromaccount,toaccount,content,time,articleid) values('%s','%s','%s','%s','%s','%s')" % (id,fromaccount,toaccount,content,time,articleid)
+    i = DataBaseHandle().updateDB(sql)
+    if i>0:
+        return 'success'
+    else:
+        return 'error'
+
+# 博客详情页
 @app.route('/getArticleById',methods=['GET'])
 def getArticleById():
     id = request.args.get('id')
@@ -60,7 +92,13 @@ def getArticleById():
 # 查询所有文章
 @app.route('/getAllArticles',methods=['POST'])
 def getAllArticles():
-    sql="select * from article order by time desc"
+    bs = int(request.form.get('bs'))
+    sql=""
+    if bs==1:
+        sql="select * from article order by time desc"
+    elif bs ==2:
+        account = session.get('account')
+        sql="select * from article where account='%s' order by time desc" % (account)
     data = DataBaseHandle().selectDB(sql)
     list=[]
     for obj in data:

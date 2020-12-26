@@ -58,7 +58,7 @@
 
 <!--导航条-->
 <nav class="breadcrumb">
-  <div class="container"> <i class="Hui-iconfont">&#xe67f;</i> <a href="/index" class="c-primary">首页</a> <span class="c-gray en">&gt;</span>  <span class="c-gray">文章</span> <span class="c-gray en">&gt;</span>  <span class="c-gray">个人博客应该选择什么样的域名和域名后缀</span></div>
+  <div class="container"> <i class="Hui-iconfont">&#xe67f;</i> <a href="/index" class="c-primary">首页</a> <span class="c-gray en">&gt;</span>  <span class="c-gray">文章</span> <span class="c-gray en">&gt;</span>  <span class="c-gray">{{obj.title}}</span></div>
 </nav>
 
 <section class="container pt-20">
@@ -71,7 +71,12 @@
 						<div class="panel-body pt-10 pb-10">
 							<h2 class="c_titile">{{obj.title}}</h2>
 							<p class="box_c"><span class="d_time">发布时间：{{ obj.time }}</span><span>编辑：<a href="mailto:wfyv@qq.com">{{ obj.username }}</a></span><span>阅读（0）</span></p>
-							{{ obj.content }}
+                                        <div id="lalala" style="display: none;">{{ obj.content }}</div>
+                                        <div id="account" style="display: none;">{{ obj.account }}</div>
+                            <div id="test">
+
+
+                            </div>
 															
 
 						</div>
@@ -85,31 +90,6 @@
 							<div class="panel-body" style="margin: 0 3%;">
                     <div class="mb-20">
                     	<ul class="commentList">
-                            <li class="item cl"> <a href="#"><i class="avatar size-L radius"><img alt="" src="http://qzapp.qlogo.cn/qzapp/101388738/1CF8425D24660DB8C3EBB76C03D95F35/100"></i></a>
-                                <div class="comment-main">
-                                    <header class="comment-header">
-                                        <div class="comment-meta"><a class="comment-author" href="#">老王</a>
-                                            <time title="2014年8月31日 下午3:20" datetime="2014-08-31T03:54:20" class="f-r">2014-8-31 15:20</time>
-                                        </div>
-                                    </header>
-                                    <div class="comment-body">
-                                        <p> 是的</p>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="item cl"> <a href="#"><i class="avatar size-L radius"><img alt="" src="http://qzapp.qlogo.cn/qzapp/101388738/696C8A17B3383B88804BA92ECBAA5D81/100"></i></a>
-                                <div class="comment-main">
-                                    <header class="comment-header">
-                                        <div class="comment-meta"><a class="comment-author" href="#">老王</a>
-                                            <time title="2014年8月31日 下午3:20" datetime="2014-08-31T03:54:20" class="f-r">2014-8-31 15:20</time>
-                                        </div>
-                                    </header>
-                                    <div class="comment-body">
-                                        <p> +1</p>
-                                    </div>
-                                </div>
-                            </li>
-
                         </ul>
     
                     </div>
@@ -117,17 +97,10 @@
                     <!--用于评论-->
                     <div class="mt-20" id="ct">
                         <div id="err" class="Huialert Huialert-danger hidden radius">成功状态提示</div>
-                        <textarea id="textarea1" name="comment" style="height:200px;" placeholder="看完不留一发？"> </textarea>
+                        <textarea id="pinglun" cols="130" rows="5" name="comment" style="border: 1px solid lightgray;" placeholder="看完不留一发？"></textarea>
                         <div class="text-r mt-10">
                             <button onclick="getPlainTxt()" class="btn btn-primary radius" > 发表评论</button>
                         </div>
-                    </div>
-                    <!--用于回复-->
-                    <div class="comment hidden mt-20">
-                        <div id="err2" class="Huialert Huialert-danger hidden radius">成功状态提示</div>
-                            <textarea class="textarea" style="height:100px;" > </textarea>
-                            <button onclick="hf(this);" type="button" class="btn btn-primary radius mt-10">回复</button>
-                            <a class="cancelReply f-r mt-10">取消回复</a>
                     </div>
 
                 </div>
@@ -182,7 +155,7 @@
 </section>
 <footer class="footer mt-20">
 		<p>Copyright &copy;2017 wfyvv.com All Rights Reserved. <br>
-			<a href="http://www.miitbeian.gov.cn/" target="_blank" rel="nofollow">皖ICP备17002922号</a>  更多模板：<a href="http://www.mycodes.net/" target="_blank">源码之家</a><br>
+			<a href="http://www.miitbeian.gov.cn/" target="_blank" rel="nofollow">皖ICP备17002922号</a><br>
 		</p>
 </footer>
 <script type="text/javascript" src="../static/plugin/jquery/1.9.1/jquery.min.js"></script>
@@ -190,32 +163,13 @@
 <script type="text/javascript" src="../static/plugin/h-ui/js/H-ui.min.js"></script>
 <script type="text/javascript" src="../static/plugin/pifu/pifu.js"></script>
 <script type="text/javascript" src="../static/js/common.js"></script>
+<script type="text/javascript" src="../static/js/showdown.min.js"></script>
 <script> $(function(){ $(window).on("scroll",backToTopFun); backToTopFun(); }); </script>
-<script type="text/javascript" src="../static/plugin/wangEditor/js/wangEditor.min.js"></script>
+{#<script type="text/javascript" src="../static/plugin/wangEditor/js/wangEditor.js"></script>#}
 <script type="text/javascript">
+
+    var isLogin=false;
     $(function () {
-    		$("img.lazyload").lazyload({failurelimit : 3});
-    	
-        wangEditor.config.printLog = false;
-        var editor1 = new wangEditor('textarea1');
-        editor1.config.menus = ['insertcode', 'quote', 'bold', '|', 'img', 'emotion', '|', 'undo', 'fullscreen'];
-        editor1.config.emotions = { 'default': { title: '老王表情', data: 'plugin/wangEditor/emotions1.data'}, 'default2': { title: '老王心情', data: 'plugin/wangEditor/emotions3.data'}, 'default3': { title: '顶一顶', data: 'plugin/wangEditor/emotions2.data'}};
-        editor1.create();
-
-        //show reply
-        $(".hf").click(function () {
-            pId = $(this).attr("name");
-            $(this).parents(".commentList").find(".cancelReply").trigger("click");
-            $(this).parent(".comment-body").append($(".comment").clone(true));
-            $(this).parent(".comment-body").find(".comment").removeClass("hidden");
-            $(this).hide();
-        });
-        //cancel reply
-        $(".cancelReply").on('click',function () {
-            $(this).parents(".comment-body").find(".hf").show();
-            $(this).parents(".comment-body").find(".comment").remove();
-        });
-
          $.post(
             "/isLogin",
             function (data) {
@@ -225,12 +179,94 @@
                     $("#newTitle").hide()
                     $("#wdwz").hide()
                 }else{
+                    isLogin=true;
                     $("#false").hide()
                     $("#true>a").html(data)
                 }
             }
         );
+         var url = window.location.href;
+         var articleid=url.slice(url.lastIndexOf('=')+1);
+         $.post(
+             "/getPinglun",
+             {articleid:articleid},
+             function (data) {
+                var tempStr=''
+                 var newData=JSON.parse(data)
+                 for(var i=0;i<newData.length;i++){
+                     tempStr+='<li class="item cl"> <a href="#"><i class="avatar size-L radius"><img alt="" src="http://qzapp.qlogo.cn/qzapp/101388738/1CF8425D24660DB8C3EBB76C03D95F35/100"></i></a>\n' +
+                         '                                <div class="comment-main">\n' +
+                         '                                    <header class="comment-header">\n' +
+                         '                                        <div class="comment-meta"><a class="comment-author" href="#">'+newData[i].username+'</a>\n' +
+                         '                                            <time class="f-r">'+newData[i].time+'</time>\n' +
+                         '                                        </div>\n' +
+                         '                                    </header>\n' +
+                         '                                    <div class="comment-body">\n' +
+                         '                                        <p>'+newData[i].content+'</p>\n' +
+                         '                                    </div>\n' +
+                         '                                </div>\n' +
+                         '                            </li>'
+                 }
+                 $(".commentList").html(tempStr);
+             }
+         );
+
+         var converter = new showdown.Converter();
+         var text = $("#lalala").html();   //需要显示的markdown笔记
+         var html = converter.makeHtml(text);
+         document.getElementById('test').innerHTML = html;
+
     });
+
+    function getPlainTxt() {
+        if(isLogin){
+            var content=$("#pinglun").val();
+            var url = window.location.href;
+            var articleid=url.slice(url.lastIndexOf('=')+1);
+            var toaccount=$("#account").html();
+            $.post(
+                "/pinglun",
+                {toaccount:toaccount,articleid:articleid,content:content},
+                function (data) {
+                    if(data=='success'){
+                        var url = window.location.href;
+         var articleid=url.slice(url.lastIndexOf('=')+1);
+         $.post(
+             "/getPinglun",
+             {articleid:articleid},
+             function (data) {
+                var tempStr=''
+                 var newData=JSON.parse(data)
+                 for(var i=0;i<newData.length;i++){
+                     tempStr+='<li class="item cl"> <a href="#"><i class="avatar size-L radius"><img alt="" src="http://qzapp.qlogo.cn/qzapp/101388738/1CF8425D24660DB8C3EBB76C03D95F35/100"></i></a>\n' +
+                         '                                <div class="comment-main">\n' +
+                         '                                    <header class="comment-header">\n' +
+                         '                                        <div class="comment-meta"><a class="comment-author" href="#">'+newData[i].username+'</a>\n' +
+                         '                                            <time class="f-r">'+newData[i].time+'</time>\n' +
+                         '                                        </div>\n' +
+                         '                                    </header>\n' +
+                         '                                    <div class="comment-body">\n' +
+                         '                                        <p>'+newData[i].content+'</p>\n' +
+                         '                                    </div>\n' +
+                         '                                </div>\n' +
+                         '                            </li>'
+                 }
+                 $(".commentList").html(tempStr);
+             }
+         );
+         $("#pinglun").val('')
+                    }else{
+                        alert('评论失败')
+                    }
+                }
+            );
+
+        }else{
+            alert('请先登录')
+        }
+
+
+    }
 
 </script>
 </body>

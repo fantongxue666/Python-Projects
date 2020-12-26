@@ -297,6 +297,7 @@ jQuery(".slideTxtBox").slide({titCell: ".hd ul", mainCell: ".bd ul", autoPage: t
         );
         $.post(
             "/getAllArticles",
+            {bs:1},
             function (test) {
                 if(test!=null){
                     var data = JSON.parse(test)
@@ -320,6 +321,58 @@ jQuery(".slideTxtBox").slide({titCell: ".hd ul", mainCell: ".bd ul", autoPage: t
         );
 
 
+});
+$("#qbwz").click(function () {
+ $.post(
+            "/getAllArticles",
+            {bs:1},
+            function (test) {
+                if(test!=null){
+                    var data = JSON.parse(test)
+                    var tempStr='';
+                    for(var i=0;i<data.length;i++){
+                        tempStr+='<li class="index_arc_item no_pic">\n' +
+                            '\t\t\t\t\t<h4 class="title"><a href="/getArticleById?id='+data[i].id+'">'+data[i].title+'</a></h4>\n' +
+                            '\t\t\t\t\t<div class="date_hits">\n' +
+                            '\t\t\t\t\t\t<span>'+data[i].username+'</span>\n' +
+                            '\t\t\t\t\t\t<span>'+data[i].time+'</span>\n' +
+                            '\t\t\t\t\t\t<span><a href="/article-lists/10.html">建站</a></span>\n' +
+                            '\t\t\t\t\t\t<p class="hits"><i class="Hui-iconfont" title="点击量">&#xe6c1;</i> 276 °</p>\n' +
+                            '\t\t\t\t\t\t<p class="commonts"><i class="Hui-iconfont" title="点击量">&#xe622;</i> <span id="sourceId::105" class="cy_cmt_count">20</span></p>\n' +
+                            '\t\t\t\t\t</div>\n' +
+                            '\t\t\t\t\t<div class="desc">'+data[i].content+'</div>\n' +
+                            '\t\t\t\t</li>';
+                    }
+                    $("#content").html(tempStr);
+                }
+            }
+        );
+});
+$("#wdwz").click(function () {
+ $.post(
+            "/getAllArticles",
+            {bs:2},
+            function (test) {
+                if(test!=null){
+                    var data = JSON.parse(test)
+                    var tempStr='';
+                    for(var i=0;i<data.length;i++){
+                        tempStr+='<li class="index_arc_item no_pic">\n' +
+                            '\t\t\t\t\t<h4 class="title"><a href="/getArticleById?id='+data[i].id+'">'+data[i].title+'</a></h4>\n' +
+                            '\t\t\t\t\t<div class="date_hits">\n' +
+                            '\t\t\t\t\t\t<span>'+data[i].username+'</span>\n' +
+                            '\t\t\t\t\t\t<span>'+data[i].time+'</span>\n' +
+                            '\t\t\t\t\t\t<span><a href="/article-lists/10.html">建站</a></span>\n' +
+                            '\t\t\t\t\t\t<p class="hits"><i class="Hui-iconfont" title="点击量">&#xe6c1;</i> 276 °</p>\n' +
+                            '\t\t\t\t\t\t<p class="commonts"><i class="Hui-iconfont" title="点击量">&#xe622;</i> <span id="sourceId::105" class="cy_cmt_count">20</span></p>\n' +
+                            '\t\t\t\t\t</div>\n' +
+                            '\t\t\t\t\t<div class="desc">'+data[i].content+'</div>\n' +
+                            '\t\t\t\t</li>';
+                    }
+                    $("#content").html(tempStr);
+                }
+            }
+        );
 });
 
 </script> 
