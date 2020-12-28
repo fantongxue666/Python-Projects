@@ -7,7 +7,7 @@ from flask import redirect
 from utils.DBHandle import DataBaseHandle
 import json,uuid,datetime
 from utils.DateEncoder import DateEncoder
-from practice.db_test import newRoute
+from bank.db_test import newRoute
 newRoute(app)
 @app.route('/')
 def hello_world():
