@@ -59,5 +59,23 @@ def dongtai():
     b = tf.reshape(a,shape=[2,3,2])
     print("变之前：\n",a)
     print("变之后：\n", b)
+
+def createBL():
+    a = tf.Variable(initial_value=50)
+    b = tf.Variable(initial_value=40)
+    c = tf.add(a,b)
+    print("a：\n",a)
+    print("b：\n", b)
+    print("c：\n", c)
+    # 初始化变量
+    init = tf.compat.v1.global_variables_initializer()
+    # 开启会话
+    with tf.compat.v1.Session() as sess:
+        # 运行初始化
+        sess.run(init)
+        a_value,b_value,c_value = sess.run([a,b,c])
+        print("a_value：\n", a_value)
+        print("b_value：\n", b_value)
+        print("c_value：\n", c_value)
 if __name__ == '__main__':
-    dongtai()
+    createBL()
