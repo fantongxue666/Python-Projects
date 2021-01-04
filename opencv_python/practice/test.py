@@ -87,5 +87,42 @@ def tdys():
     result3 = cv2.morphologyEx(dg,cv2.MORPH_GRADIENT,kenel)
     cv2.imshow("image", result3)
     cv2.waitKey(0)
+
+# 梯度Sobel算子
+def sobel():
+    dg = cv2.imread('D:\\tempFiles\\resources\\dige.png')
+    # 参数（图像，得出的结果保存负数的形式【否则会被截断为0】，横向计算，竖向不计算，方阵大小为3x3）
+    new_dg = cv2.Sobel(dg,cv2.CV_64F,1,0,ksize=3)
+    # 负数取绝对值
+    abs = cv2.convertScaleAbs(new_dg)
+    cv2.imshow("image",abs)
+    cv2.waitKey(0)
+
+def dny():
+    dg = cv2.imread('D:\\tempFiles\\resources\\mm.png')
+    down = cv2.pyrDown(dg) # 向下采样（变小）
+    up = cv2.pyrUp(dg)  # 向上采样（变大）
+    cv2.imshow("image", up)
+    cv2.waitKey(0)
+
+# 绘画轮廓
+def hhlk():
+    # 拿到原图
+    dg = cv2.imread('D:\\tempFiles\\resources\\mm.png')
+    # 转为灰度图
+    gray = cv2.cvtColor(dg,cv2.COLOR_BGR2GRAY)
+    # 灰度图转为二值化图
+    ret,thresh = cv2.threshold(gray,127,255,cv2.THRESH_BINARY)
+    # 得到轮廓对象
+    contours,hierarchy = cv2.findContours(thresh,cv2.RETR_TREE,cv2.CHAIN_APPROX_NONE)
+    # 把轮廓对象画出来
+    drwo_dg = gray.copy()
+    # 参数：传入图像，轮廓，轮廓索引（-1为画出全部轮廓），颜色，线条厚度
+    res = cv2.drawContours(drwo_dg,contours,-1,(0,0,255),2)
+    print("轮廓特征：\n",contours[1])
+    print("轮廓面积：\n",cv2.contourArea(contours[1]))
+    print("轮廓周长：\n",cv2.arcLength(contours[1],True)) # true代表闭合的轮廓
+    # cv2.imshow("contours",res)
+    # cv2.waitKey(0)
 if __name__ == "__main__":
-    tdys()
+    hhlk()
