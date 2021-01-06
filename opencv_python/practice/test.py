@@ -1,7 +1,11 @@
 import cv2
 import matplotlib.pyplot as plt
 import numpy as np
-
+# 绘图展示
+def cv_show(name,img):
+    cv2.imshow(name,img)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
 # 图像读取
 def txcl():
     img = cv2.imread('D:\\tempFiles\\resources\\3.jpg', cv2.IMREAD_GRAYSCALE)
@@ -124,5 +128,43 @@ def hhlk():
     print("轮廓周长：\n",cv2.arcLength(contours[1],True)) # true代表闭合的轮廓
     # cv2.imshow("contours",res)
     # cv2.waitKey(0)
+
+def doc():
+    img = cv2.imread("D:\\tempFiles\\resources\\doc.jpg")
+    two = cv2.resize(img.copy(),(500,700))
+    gray = cv2.cvtColor(two,cv2.COLOR_BGR2GRAY)
+    cv_show("two",two)
+    dst = cv2.cornerHarris(gray,2,3,0.04)
+    two[dst>0.01*dst.max()] = [0,0,255]
+    cv_show("result",two)
+
+def bjjm():
+    cap = cv2.VideoCapture('D:\\tempFiles\\resources\\hs.mp4')  # 读取视频
+    # 形态学操作需要使用
+    kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(3,3))
+    # 创建混合高斯模型用于建模
+    fgbg = cv2.createBackgroundSubtractorMOG2()
+    while(True):
+        ret,frame = cap.read()
+        fgmask = fgbg.apply(frame)
+        # 形态学开运算去噪点
+        fgmask = cv2.morphologyEx(fgmask,cv2.MORPH_OPEN,kernel)
+        # 寻找视频中的轮廓
+        contours,hierarchy = cv2.findContours(fgmask,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
+        for c in contours:
+            # 计算各轮廓的周长
+            perimeter = cv2.arcLength(c,True)
+            if perimeter>188:
+                # 找到一个直矩形（不会旋转）
+                x,y,w,h = cv2.boundingRect(c)
+                # 画出这个矩形
+                cv2.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),2)
+        cv2.imshow("frame",frame)
+        cv2.imshow("fgmask",fgmask)
+        k=cv2.waitKey(150) & 0xff
+        if k==27:
+            break
+    cap.release()
+    cv2.destroyAllWindows()
 if __name__ == "__main__":
-    hhlk()
+    bjjm()
