@@ -9,6 +9,8 @@ if response.status_code==200:
     etreeObj = etree.HTML(response.text)
     # 得到视频列表的li
     li_list = etreeObj.xpath('//*[@id="listvideoListUl"]/li')
+    # 存放视频真实地址
+    urls = []
     for li in li_list:
         detail_url = "https://www.pearvideo.com/"+li.xpath('.//a/@href')[0]
         # 这只是一个视频详情页的链接，并不是视频链接，要靠F12大胆的去发现，这里发现请求详情页后，又发了一个请求
@@ -26,5 +28,6 @@ if response.status_code==200:
             jsons=response.json()
             react_url = jsons["videoInfo"]["videos"]["srcUrl"]
             print("视频真实地址：",react_url)
+            
 
 
